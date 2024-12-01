@@ -22,7 +22,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t hello-ai:${{ github.sha }} --file app.dockerfile .
+        docker build -t gamdckr/hello-ai:${{ github.sha }} --file app.dockerfile .
 
     - name: Cache Trivy DB
       uses: actions/cache@v2
@@ -35,7 +35,7 @@ jobs:
     - name: Scan the Docker image
       uses: aquasecurity/trivy-action@0.2.0
       with:
-        image-ref: 'hello-ai:${{ github.sha }}'
+        image-ref: 'gamdckr/hello-ai:${{ github.sha }}'
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
@@ -46,4 +46,4 @@ jobs:
       if: ${{ success() }}
       run: |
         echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push hello-ai:${{ github.sha }}
+        docker push gamdckr/hello-ai:${{ github.sha }}
