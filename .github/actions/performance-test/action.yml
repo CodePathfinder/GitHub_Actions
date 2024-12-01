@@ -27,9 +27,9 @@ runs:
         python-version: '3.8'
 
     - name: Set execute permission for the script
-      run: chmod +x ${{ github.workspace }}/.github/actions/performance-test/entrypoint.sh
+      run: chmod +x .github/actions/performance-test/entrypoint.sh
       shell: bash
 
     - name: Run performance tests with Locust
-      run: ${{ github.workspace }}/.github/actions/performance-test/entrypoint.sh ${{ inputs.users }} ${{ inputs.spawn_rate }} ${{ inputs.run_time }} ${{ inputs.host }} ${{ github.sha }}
+      run: .github/actions/performance-test/entrypoint.sh ${{ inputs.users }} ${{ inputs.spawn_rate }} ${{ inputs.run_time }} ${{ inputs.host }} ${{ github.sha }}
       shell: bash
