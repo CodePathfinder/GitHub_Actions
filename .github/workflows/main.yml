@@ -42,13 +42,21 @@ jobs:
         severity: 'CRITICAL,HIGH'
         vuln-type: 'os,library'
 
-    - name: Run performance tests
-      run: |
-        pip install locust
-        docker run --name hello-ai -d -p 8080:8080 hello-ai:${{ github.sha }}
-        sleep 10 # wait for app to start
-        locust -f .github/workflows/locustfile.py --headless --users 50 --spawn-rate 10 --host http://localhost:8080 --run-time 30s
+    - name: Locust Performance Testing
+      uses: ./.github/actions/performance-test
+      with:
+        host: 'http://localhost:8000'  # Adjust host according to where your app is running
+        users: '30'
+        spawn_rate: '5'
+        run_time: '30s'
+        
+    # - name: Run performance tests
+    #   run: |
+    #     pip install locust
+    #     docker run --name hello-ai -d -p 8080:8080 hello-ai:${{ github.sha }}
+    #     sleep 10 # wait for app to start
+    #     locust -f .github/workflows/locustfile.py --headless --users 50 --spawn-rate 10 --host http://localhost:8080 --run-time 30s
 
-    - name: Cleanup
-      if: always()
-      run: docker stop hello-ai
+    # - name: Cleanup
+    #   if: always()
+    #   run: docker stop hello-ai
