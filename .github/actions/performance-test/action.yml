@@ -1,35 +1,35 @@
-# add your code here.
-name: 'Locust Performance Test'
-description: 'Run performance tests using Locust'
-inputs:
-  host:
-    description: 'The host URL to load test'
-    required: true
-  users:
-    description: 'Number of concurrent Locust users'
-    required: true
-  spawn_rate:
-    description: 'Rate per second in which users are spawned'
-    required: true
-  run_time:
-    description: 'How long the test should run'
-    required: true
+# # add your code here.
+# name: 'Locust Performance Test'
+# description: 'Run performance tests using Locust'
+# inputs:
+#   host:
+#     description: 'The host URL to load test'
+#     required: true
+#   users:
+#     description: 'Number of concurrent Locust users'
+#     required: true
+#   spawn_rate:
+#     description: 'Rate per second in which users are spawned'
+#     required: true
+#   run_time:
+#     description: 'How long the test should run'
+#     required: true
 
-runs:
-  using: 'composite'
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+# runs:
+#   using: 'composite'
+#   steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
+#     - name: Set up Python
+#       uses: actions/setup-python@v2
+#       with:
+#         python-version: '3.8'
 
-    - name: Set execute permission for the script
-      run: chmod +x .github/actions/performance-test/entrypoint.sh
-      shell: bash
+#     - name: Set execute permission for the script
+#       run: chmod +x .github/actions/performance-test/entrypoint.sh
+#       shell: bash
 
-    - name: Run performance tests with Locust
-      run: .github/actions/performance-test/entrypoint.sh ${{ inputs.users }} ${{ inputs.spawn_rate }} ${{ inputs.run_time }} ${{ inputs.host }} ${{ github.sha }}
-      shell: bash
+#     - name: Run performance tests with Locust
+#       run: .github/actions/performance-test/entrypoint.sh ${{ inputs.users }} ${{ inputs.spawn_rate }} ${{ inputs.run_time }} ${{ inputs.host }} ${{ github.sha }}
+#       shell: bash
