@@ -51,4 +51,4 @@ jobs:
 
     - name: Cleanup
       if: always()
-      run: docker stop my-app
+      run: docker stop hello-ai
