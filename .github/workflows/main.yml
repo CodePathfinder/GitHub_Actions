@@ -22,7 +22,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build --no-cache -t hello-ai:${{ github.sha }} .
+        docker build --no-cache -t hello-ai:${{ github.sha }} --file app.dockerfile .
 
     - name: Cache Trivy DB
       uses: actions/cache@v2
