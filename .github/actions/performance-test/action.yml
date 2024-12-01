@@ -26,9 +26,5 @@ runs:
       with:
         python-version: '3.8'
 
-    - name: Install Locust
-      run: pip install locust
-
-    - name: Run Locust
-      run: locust -f locustfile.py --headless -u ${{ inputs.users }} -r ${{ inputs.spawn_rate }} -t ${{ inputs.run_time }} --host ${{ inputs.host }}
-      shell: bash
+    - name: Run performance tests with Locust
+      run: entrypoint.sh ${{ inputs.users }} ${{ inputs.spawn_rate }} ${{ inputs.run_time }} ${{ inputs.host }} ${{ github.sha }}
