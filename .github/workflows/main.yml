@@ -21,7 +21,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t hello-ai:${{ github.sha }} .
+        docker build -t hello-ai:${{ github.sha }} --file app.dockerfile .
 
     - name: Scan the Docker image
       uses: aquasecurity/trivy-action@master
