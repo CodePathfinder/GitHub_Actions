@@ -8,7 +8,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t gamdckr/hello-ai:${{ github.sha }} --file app.dockerfile .
+        docker build --no-cache -t hello-ai:${{ github.sha }} .
 
     - name: Cache Trivy DB
       uses: actions/cache@v2
@@ -35,15 +35,17 @@ jobs:
     - name: Scan the Docker image
       uses: aquasecurity/trivy-action@0.2.0
       with:
-        image-ref: 'gamdckr/hello-ai:${{ github.sha }}'
+        image-ref: 'hello-ai:${{ github.sha }}'
         format: 'table'
         exit-code: '1'
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
         vuln-type: 'os,library'
 
-    - name: Push Docker image
-      if: ${{ success() }}
-      run: |
-        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-        docker push gamdckr/hello-ai:${{ github.sha }}
+    # - name: Locust Performance Testing
+    #   uses: ./.github/actions/performance-test
+    #   with:
+    #     host: 'http://localhost:8000'  # Adjust host according to where your app is running
+    #     users: '100'
+    #     spawn_rate: '10'
+    #     run_time: '1m'

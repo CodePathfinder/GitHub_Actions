@@ -1,1 +1,34 @@
 # add your code here.
+name: 'Locust Performance Test'
+description: 'Run performance tests using Locust'
+inputs:
+  host:
+    description: 'The host URL to load test'
+    required: true
+  users:
+    description: 'Number of concurrent Locust users'
+    required: true
+  spawn_rate:
+    description: 'Rate per second in which users are spawned'
+    required: true
+  run_time:
+    description: 'How long the test should run'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install Locust
+      run: pip install locust
+
+    - name: Run Locust
+      run: locust -f locustfile.py --headless -u ${{ inputs.users }} -r ${{ inputs.spawn_rate }} -t ${{ inputs.run_time }} --host ${{ inputs.host }}
+      shell: bash
