@@ -41,14 +41,6 @@ jobs:
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
         vuln-type: 'os,library'
-
-    - name: Locust Performance Testing
-      uses: ./.github/actions/performance-test
-      with:
-        host: 'http://localhost:8000'  # Adjust host according to where your app is running
-        users: '30'
-        spawn_rate: '5'
-        run_time: '30s'
         
     - name: Run performance tests
       run: |
