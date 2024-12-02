@@ -41,14 +41,8 @@ jobs:
         ignore-unfixed: true
         severity: 'CRITICAL,HIGH'
         vuln-type: 'os,library'
-        
-    - name: Run performance tests
-      run: |
-        pip install locust
-        docker run --name hello-ai -d -p 8080:8080 hello-ai:${{ github.sha }}
-        sleep 10 # wait for app to start
-        locust -f .github/workflows/locustfile.py --headless --users 50 --spawn-rate 10 --host http://localhost:8080 --run-time 30s
 
-    - name: Cleanup
-      if: always()
-      run: docker stop hello-ai
+    - name: Run performance tests using custom action
+      uses: ./.github/actions/performance-test
+      with:
+        docker-image: 'hello-ai:${{ github.sha }}'
